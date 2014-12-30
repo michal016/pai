@@ -9,11 +9,13 @@ Ext.define('pai.view.main.Main', {
     extend: 'Ext.container.Container',
     requires: [
         'pai.view.main.MainController',
-        'pai.view.main.MainModel'
+        'pai.view.main.MainModel',
+        'pai.view.AddDefect',
+        'pai.view.Defects'
     ],
 
     xtype: 'app-main',
-    
+
     controller: 'main',
     viewModel: {
         type: 'main'
@@ -36,12 +38,16 @@ Ext.define('pai.view.main.Main', {
             text: 'Button',
             handler: 'onClickButton'
         }]
-    },{
+    }, {
         region: 'center',
         xtype: 'tabpanel',
-        items:[{
-            title: 'Tab 1',
-            html: '<h2>Content appropriate for the current navigation.</h2>'
-        }]
+        items: [
+            {
+                xtype: 'addDefectPanel'
+            },
+            {
+                xtype: 'defectsPanel'
+            }
+        ]
     }]
 });

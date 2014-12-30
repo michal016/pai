@@ -47,6 +47,7 @@ class MainController extends \yii\web\Controller
         $voivodships = Voivodship::findBySql('select * from voivodship')->all();
         $data = array();
 
+        /** @var Voivodship $voivodship */
         foreach ($voivodships as $voivodship) {
             $data[] = array(
                 'id' => $voivodship->getAttribute('id'),
@@ -64,12 +65,10 @@ class MainController extends \yii\web\Controller
 
     public function actionReadDistricts() {
 
-        /**
-         * @var District $districts
-         */
         $districts = District::findBySql('select * from district')->all();
         $data = array();
 
+        /** @var District $district */
         foreach ($districts as $district) {
 
             $data[] = array(
@@ -92,6 +91,7 @@ class MainController extends \yii\web\Controller
         $communities = Community::findBySql('select * from community')->all();
         $data = array();
 
+        /** @var Community $community */
         foreach ($communities as $community) {
             $data[] = array(
                 'id' => $community->id,

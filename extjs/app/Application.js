@@ -30,7 +30,8 @@ Ext.define('pai.Application', {
     stores: [
         'pai.store.Voivodships',
         'pai.store.Districts',
-        'pai.store.Communities'
+        'pai.store.Communities',
+        'pai.store.Defects'
     ],
     
     launch: function () {

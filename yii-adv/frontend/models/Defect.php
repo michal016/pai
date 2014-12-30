@@ -21,6 +21,9 @@ use Yii;
  */
 class Defect extends \yii\db\ActiveRecord
 {
+    const STATUS_REPORTED = 0;
+    const STATUS_RESOLVED = 1;
+
     /**
      * @inheritdoc
      */

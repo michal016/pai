@@ -5,6 +5,5 @@ Ext.define('pai.controller.Main', {
     extend: 'Ext.app.Controller',
 
     init: function() {
-        console.log('Initialized Main Controller');
     }
 });

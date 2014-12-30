@@ -11,7 +11,7 @@ class m141230_104050_add_table_defect extends Migration
             'id' => Schema::TYPE_PK,
             'title' => "varchar(100)",
             'description' => Schema::TYPE_TEXT,
-            'create_date' => Schema::TYPE_DATETIME,
+            'create_date' => "timestamp default current_timestamp",
             'status' => Schema::TYPE_SMALLINT . " default 0",
             'photo' => "varchar(20)",
             'longitude' => Schema::TYPE_FLOAT,
