@@ -16,15 +16,22 @@ class m141230_104050_add_table_defect extends Migration
             'photo' => "varchar(20)",
             'longitude' => Schema::TYPE_FLOAT,
             'latitude' => Schema::TYPE_FLOAT,
-            'community_id' => "int(11)"
-        ));
+            'community_id' => "int(11)",
+            'voivodship_id' => "int(11)",
+            'district_id' => "int(11)"
+        ), 'ENGINE InnoDB');
+
         $this->addForeignKey('fk_d_community_id_c_id', 'defect', 'community_id', 'community', 'id', "SET NULL", "CASCADE");
+        $this->addForeignKey('fk_d_district_id_d_id', 'defect', 'district_id', 'district', 'id', "SET NULL", "CASCADE");
+        $this->addForeignKey('fk_def_voivodship_id_v_id', 'defect', 'voivodship_id', 'voivodship', 'id', "SET NULL", "CASCADE");
         return true;
     }
 
     public function safeDown()
     {
         $this->dropForeignKey('fk_d_community_id_c_id', 'defect');
+        $this->dropForeignKey('fk_def_voivodship_id_v_id', 'defect');
+        $this->dropForeignKey('fk_d_district_id_d_id', 'defect');
         $this->dropTable('defect');
         return true;
     }

@@ -66,7 +66,9 @@ class DefectController extends \yii\web\Controller
                 'photo' => $defect->photo,
                 'longitude' => $defect->longitude,
                 'latitude' => $defect->latitude,
-                'community_id' => $defect->community_id
+                'community_id' => $defect->community_id,
+                'district_id' => $defect->district_id,
+                'voivodship_id' => $defect->voivodship_id
             );
         }
 
@@ -81,8 +83,8 @@ class DefectController extends \yii\web\Controller
 
     public function actionCreate() {
 
-//        $voivodshipId = $_POST['voivodship'];
-//        $districtId = $_POST['district'];
+        $voivodshipId = $_POST['voivodship'];
+        $districtId = $_POST['district'];
         $communityId = $_POST['community'];
         $title = $_POST['title'];
         $description = $_POST['description'];
@@ -93,6 +95,8 @@ class DefectController extends \yii\web\Controller
         $defect->description = $description;
         $defect->status = Defect::STATUS_REPORTED;
         $defect->community_id = $communityId;
+        $defect->district_id = $districtId;
+        $defect->voivodship_id = $voivodshipId;
 
         // todo photo
 

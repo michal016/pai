@@ -22,32 +22,19 @@ Ext.define('pai.view.main.Main', {
     },
 
     layout: {
-        type: 'border'
+        type: 'fit'
     },
 
-    items: [{
-        xtype: 'panel',
-        bind: {
-            title: '{name}'
-        },
-        region: 'west',
-        html: '<ul><li>This area is commonly used for navigation, for example, using a "tree" component.</li></ul>',
-        width: 250,
-        split: true,
-        tbar: [{
-            text: 'Button',
-            handler: 'onClickButton'
+    items: [
+        {
+            xtype: 'tabpanel',
+            items: [
+                {
+                    xtype: 'defectsPanel'
+                },
+                {
+                    xtype: 'addDefectPanel'
+                }
+            ]
         }]
-    }, {
-        region: 'center',
-        xtype: 'tabpanel',
-        items: [
-            {
-                xtype: 'addDefectPanel'
-            },
-            {
-                xtype: 'defectsPanel'
-            }
-        ]
-    }]
 });

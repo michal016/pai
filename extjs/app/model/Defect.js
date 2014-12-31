@@ -3,6 +3,13 @@
  */
 Ext.define('pai.model.Defect', {
     extend: 'Ext.data.Model',
+
+    statics: {
+        STATUS_REPORTED: 0,
+        STATUS_RESOLVED: 1,
+        STATUS_IN_PROGRESS: 2
+    },
+
     fields: [
         {
             name: 'id',
@@ -40,5 +47,17 @@ Ext.define('pai.model.Defect', {
             name: 'community_id',
             reference: 'Community'
         }
-    ]
+    ],
+
+    getStatusName: function () {
+        switch (this.get('status')) {
+            case pai.model.Defect.STATUS_REPORTED:
+                return 'Zgłoszone';
+            case pai.model.Defect.STATUS_RESOLVED:
+                return 'Rozwiązane';
+            case pai.model.Defect.STATUS_IN_PROGRESS:
+                return 'W toku';
+        }
+        return 'Nieznany';
+    }
 });

@@ -11,7 +11,7 @@ class m141230_095817_add_table_district extends Migration
             'id' => Schema::TYPE_PK,
             'name' => "varchar(30)",
             'voivodship_id' => "int(11)"
-        ));
+        ), 'ENGINE InnoDB');
         $this->addForeignKey('fk_d_voivodship_id_v_id', 'district', 'voivodship_id', 'voivodship', 'id', "SET NULL", "CASCADE");
         return true;
     }

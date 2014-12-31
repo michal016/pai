@@ -10,7 +10,7 @@ class m141230_095748_add_table_voivodship extends Migration
         $this->createTable('voivodship', array(
         'id' => Schema::TYPE_PK,
         'name' => "varchar(30)"
-        ));
+        ), 'ENGINE InnoDB');
         return true;
     }
 

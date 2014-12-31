@@ -13,6 +13,14 @@ Ext.define('pai.model.District', {
             type: 'string'
         },
         {
+            name: 'community_id',
+            reference: 'Community'
+        },
+        {
+            name: 'district_id',
+            reference: 'District'
+        },
+        {
             name: 'voivodship_id',
             reference: 'Voivodship'
         }

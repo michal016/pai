@@ -11,7 +11,7 @@ class m141230_095828_add_table_community extends Migration
             'id' => Schema::TYPE_PK,
             'name' => "varchar(30)",
             'district_id' => "int(11)"
-        ));
+        ), 'ENGINE InnoDB');
         $this->addForeignKey('fk_c_district_id_d_id', 'community', 'district_id', 'district', 'id', "SET NULL", "CASCADE");
         return true;
     }

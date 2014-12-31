@@ -5,7 +5,13 @@ Ext.define('pai.view.AddDefect', {
     extend: 'Ext.panel.Panel',
     xtype: 'addDefectPanel',
 
+    requires: [
+        'pai.view.GoogleMap'
+    ],
+
     title: 'Dodaj usterkę',
+    layout: 'hbox',
+    padding: 20,
 
     initComponent: function () {
         var me = this;
@@ -18,76 +24,88 @@ Ext.define('pai.view.AddDefect', {
                     url: '../index.php/defect/create',
                     items: [
                         {
-                            xtype: 'combobox',
-                            name: 'voivodship',
-                            fieldLabel: 'Województwo',
-                            labelAlign: 'top',
-                            valueField: 'id',
-                            editable: false,
-                            displayField: 'name',
-                            store: 'pai.store.Voivodships',
-                            allowBlank: false,
-                            listeners: {
-                                'change': function (combobox, newValue) {
-                                    var districtCombo = combobox.next('combobox[name=district]');
+                            xtype: 'container',
+                            layout: 'hbox',
+                            defaults: {
+                                margin: '0 10 0 0'
+                            },
+                            items: [
+                                {
+                                    xtype: 'combobox',
+                                    name: 'voivodship',
+                                    fieldLabel: 'Województwo',
+                                    labelAlign: 'top',
+                                    valueField: 'id',
+                                    editable: false,
+                                    displayField: 'name',
+                                    store: 'pai.store.Voivodships',
+                                    allowBlank: false,
+                                    listeners: {
+                                        'change': function (combobox, newValue) {
+                                            var districtCombo = combobox.next('combobox[name=district]');
 
-                                    districtCombo.getStore().addFilter(
-                                        {
-                                            property: 'voivodship_id',
-                                            value: newValue
+                                            districtCombo.getStore().addFilter(
+                                                {
+                                                    property: 'voivodship_id',
+                                                    value: newValue
+                                                }
+                                            )
+                                            districtCombo.reset();
                                         }
-                                    )
-                                    districtCombo.reset();
-                                }
-                            }
-                        },
-                        {
-                            xtype: 'combobox',
-                            name: 'district',
-                            fieldLabel: 'Powiat',
-                            labelAlign: 'top',
-                            valueField: 'id',
-                            editable: false,
-                            displayField: 'name',
-                            store: 'pai.store.Districts',
-                            allowBlank: false,
-                            listeners: {
-                                'change': function (combobox, newValue) {
-                                    var communityCombo = combobox.next('combobox[name=community]');
+                                    }
+                                },
+                                {
+                                    xtype: 'combobox',
+                                    name: 'district',
+                                    fieldLabel: 'Powiat',
+                                    labelAlign: 'top',
+                                    valueField: 'id',
+                                    editable: false,
+                                    displayField: 'name',
+                                    store: 'pai.store.Districts',
+                                    allowBlank: false,
+                                    listeners: {
+                                        'change': function (combobox, newValue) {
+                                            var communityCombo = combobox.next('combobox[name=community]');
 
-                                    communityCombo.getStore().addFilter(
-                                        {
-                                            property: 'district_id',
-                                            value: newValue
+                                            communityCombo.getStore().addFilter(
+                                                {
+                                                    property: 'district_id',
+                                                    value: newValue
+                                                }
+                                            )
+                                            communityCombo.reset();
                                         }
-                                    )
-                                    communityCombo.reset();
+                                    }
+                                },
+                                {
+                                    xtype: 'combobox',
+                                    name: 'community',
+                                    fieldLabel: 'Gmina',
+                                    labelAlign: 'top',
+                                    valueField: 'id',
+                                    editable: false,
+                                    displayField: 'name',
+                                    store: 'pai.store.Communities',
+                                    allowBlank: false
                                 }
-                            }
-                        },
-                        {
-                            xtype: 'combobox',
-                            name: 'community',
-                            fieldLabel: 'Gmina',
-                            labelAlign: 'top',
-                            valueField: 'id',
-                            editable: false,
-                            displayField: 'name',
-                            store: 'pai.store.Communities',
-                            allowBlank: false
+                            ]
                         },
                         {
                             xtype: 'textfield',
                             name: 'title',
                             labelAlign: 'top',
                             fieldLabel: 'Tytuł',
-                            allowBlank: false
+                            allowBlank: false,
+                            width: 530
                         },
                         {
                             xtype: 'textarea',
                             name: 'description',
                             labelAlign: 'top',
-                            fieldLabel: 'Opis problemu'
+                            fieldLabel: 'Opis problemu',
+                            width: 530,
+                            height: 200
                         }
                     ],
                     buttons: [
@@ -101,6 +119,7 @@ Ext.define('pai.view.AddDefect', {
                                         {
                                             success: function (form, action) {
                                                 Ext.Msg.alert('Zapisano', 'Usterka została poprawnie zapisana');
+                                                form.reset();
                                             }
                                         },
                                         {
@@ -111,8 +130,19 @@ Ext.define('pai.view.AddDefect', {
                                     )
                                 }
                             }
+                        },
+                        {
+                            text: 'Wyczyść',
+                            handler: function () {
+                                this.up('form').getForm().reset();
+                            }
                         }
                     ]
+                },
+                {
+                    xtype: 'googleMap',
+                    width: 500,
+                    height: 300
                 }
             ]
         });
