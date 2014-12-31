@@ -50,39 +50,21 @@ Ext.define('pai.view.GoogleMap', {
             form.down('textfield[name=longitude]').setValue(event.latLng.lng());
             form.down('textfield[name=latitude]').setValue(event.latLng.lat());
 
-            var geocoder = new google.maps.Geocoder();
+            //var geocoder = new google.maps.Geocoder();
 
-            geocoder.geocode({'latLng': event.latLng}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results[1]) {
-
-                        console.log(results);
-
-                    } else {
-                        alert('No results found');
-                    }
-                } else {
-                    alert('Geocoder failed due to: ' + status);
-                }
-            });
-
-        });
-    },
-
-    geocode: function (latLng) {
-        geocoder.geocode({'latLng': latLng}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-
-                    console.log(results);
-
-                } else {
-                    alert('No results found');
-                }
-            } else {
-                alert('Geocoder failed due to: ' + status);
-            }
+            //geocoder.geocode({'latLng': event.latLng}, function(results, status) {
+            //    if (status == google.maps.GeocoderStatus.OK) {
+            //        if (results[1]) {
+            //
+            //            console.log(results);
+            //
+            //        } else {
+            //            alert('No results found');
+            //        }
+            //    } else {
+            //        alert('Geocoder failed due to: ' + status);
+            //    }
+            //});
         });
     }
-
 });

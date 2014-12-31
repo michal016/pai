@@ -59,5 +59,25 @@ Ext.define('pai.model.Defect', {
                 return 'W toku';
         }
         return 'Nieznany';
+    },
+
+    getCommunity: function () {
+        return Ext.getStore('pai.store.Communities').getById(this.get('community_id')).get('name');
+    },
+
+    getDistrict: function () {
+        return Ext.getStore('pai.store.Districts').getById(this.get('district_id')).get('name');
+    },
+
+    getVoivodship: function () {
+        return Ext.getStore('pai.store.Voivodships').getById(this.get('voivodship_id')).get('name');
+    },
+
+    getFormattedDate: function () {
+        return Ext.Date.format(this.get('create_date'), 'j.n.Y');
+    },
+
+    getLocalization: function () {
+        return this.getCommunity() + ', ' + this.getDistrict() + ', ' + this.getVoivodship();
     }
 });
