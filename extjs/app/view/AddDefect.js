@@ -92,6 +92,29 @@ Ext.define('pai.view.AddDefect', {
                             ]
                         },
                         {
+                            xtype: 'container',
+                            layout: 'hbox',
+                            items: [
+                                {
+                                    xtype: 'textfield',
+                                    margin: '0 10 0 0',
+                                    name: 'longitude',
+                                    fieldLabel: 'Długość geograficzna',
+                                    labelAlign: 'top',
+                                    editable: false,
+                                    allowBlank: false
+                                },
+                                {
+                                    xtype: 'textfield',
+                                    name: 'latitude',
+                                    fieldLabel: 'Szerokość geograficzna',
+                                    labelAlign: 'top',
+                                    editable: false,
+                                    allowBlank: false
+                                }
+                            ]
+                        },
+                        {
                             xtype: 'textfield',
                             name: 'title',
                             labelAlign: 'top',
@@ -106,43 +129,64 @@ Ext.define('pai.view.AddDefect', {
                             fieldLabel: 'Opis problemu',
                             width: 530,
                             height: 200
-                        }
-                    ],
-                    buttons: [
-                        {
-                            text: 'Zapisz',
-                            handler: function () {
-                                var form = this.up('form').getForm();
-
-                                if (form.isValid()) {
-                                    form.submit(
-                                        {
-                                            success: function (form, action) {
-                                                Ext.Msg.alert('Zapisano', 'Usterka została poprawnie zapisana');
-                                                form.reset();
-                                            }
-                                        },
-                                        {
-                                            failure: function (form, action) {
-                                                Ext.Msg.alert('Wystąpił problem', 'Nie udało się zapisać usterki');
-                                            }
-                                        }
-                                    )
-                                }
-                            }
                         },
+                        //{
+                        //    xtype: 'filefield',
+                        //    width: 530,
+                        //    name: 'photo',
+                        //    fieldLabel: 'Zdjęcie',
+                        //    labelAlign: 'top',
+                        //    msgTarget: 'side',
+                        //    allowBlank: true,
+                        //    buttonText: 'Wybierz'
+                        //},
                         {
-                            text: 'Wyczyść',
-                            handler: function () {
-                                this.up('form').getForm().reset();
-                            }
+                            xtype: 'container',
+                            width: 530,
+                            layout: {
+                                type: 'hbox',
+                                align: 'end'
+                            },
+                            items: [
+                                {
+                                    xtype: 'button',
+                                    text: 'Zapisz',
+                                    margin: '0 10 0 0',
+                                    handler: function () {
+                                        var form = this.up('form').getForm();
+
+                                        if (form.isValid()) {
+                                            form.submit(
+                                                {
+                                                    success: function (form, action) {
+                                                        Ext.Msg.alert('Zapisano', 'Usterka została poprawnie zapisana');
+                                                        form.reset();
+                                                    }
+                                                },
+                                                {
+                                                    failure: function (form, action) {
+                                                        Ext.Msg.alert('Wystąpił problem', 'Nie udało się zapisać usterki');
+                                                    }
+                                                }
+                                            )
+                                        }
+                                    }
+                                },
+                                {
+                                    xtype: 'button',
+                                    text: 'Wyczyść',
+                                    handler: function () {
+                                        this.up('form').getForm().reset();
+                                    }
+                                }
+                            ]
                         }
                     ]
                 },
                 {
                     xtype: 'googleMap',
-                    width: 500,
-                    height: 300
+                    width: '100%',
+                    height: 340
                 }
             ]
         });

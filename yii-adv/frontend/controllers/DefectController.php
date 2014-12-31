@@ -88,6 +88,8 @@ class DefectController extends \yii\web\Controller
         $communityId = $_POST['community'];
         $title = $_POST['title'];
         $description = $_POST['description'];
+        $longitude = $_POST['longitude'];
+        $latitude = $_POST['latitude'];
 
         /** @var Defect $defect */
         $defect = new Defect();
@@ -97,6 +99,8 @@ class DefectController extends \yii\web\Controller
         $defect->community_id = $communityId;
         $defect->district_id = $districtId;
         $defect->voivodship_id = $voivodshipId;
+        $defect->latitude = $latitude;
+        $defect->longitude = $longitude;
 
         // todo photo
 

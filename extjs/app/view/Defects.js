@@ -8,6 +8,7 @@ Ext.define('pai.view.Defects', {
         //'Ext.Date'
     ],
     xtype: 'defectsPanel',
+    minHeight: 200,
     padding: 20,
 
 
