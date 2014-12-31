@@ -130,16 +130,16 @@ Ext.define('pai.view.AddDefect', {
                             width: 530,
                             height: 200
                         },
-                        //{
-                        //    xtype: 'filefield',
-                        //    width: 530,
-                        //    name: 'photo',
-                        //    fieldLabel: 'Zdjęcie',
-                        //    labelAlign: 'top',
-                        //    msgTarget: 'side',
-                        //    allowBlank: true,
-                        //    buttonText: 'Wybierz'
-                        //},
+                        {
+                            xtype: 'filefield',
+                            width: 530,
+                            name: 'photo',
+                            fieldLabel: 'Zdjęcie',
+                            labelAlign: 'top',
+                            msgTarget: 'side',
+                            allowBlank: true,
+                            buttonText: 'Wybierz'
+                        },
                         {
                             xtype: 'container',
                             width: 530,
@@ -158,12 +158,12 @@ Ext.define('pai.view.AddDefect', {
                                         if (form.isValid()) {
                                             form.submit(
                                                 {
+                                                    waitMsg: 'Wysyłanie zdjęcia, proszę czekać',
+                                                    url: '../index.php/defect/create',
                                                     success: function (form, action) {
                                                         Ext.Msg.alert('Zapisano', 'Usterka została poprawnie zapisana');
                                                         form.reset();
-                                                    }
-                                                },
-                                                {
+                                                    },
                                                     failure: function (form, action) {
                                                         Ext.Msg.alert('Wystąpił problem', 'Nie udało się zapisać usterki');
                                                     }

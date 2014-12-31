@@ -214,9 +214,7 @@ Ext.define('pai.view.Defects', {
                             ],
                             listeners: {
                                 'select': function (gridpanel, record, index) {
-
                                     Ext.ComponentQuery.query('defectDetails')[0].loadData(record);
-
                                 }
                             }
                         }
