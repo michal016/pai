@@ -86,7 +86,7 @@ class DefectController extends \yii\web\Controller
 
     public function actionCreate()
     {
-
+        $msg = "Usterka została poprawnie zapisana";
         $voivodshipId = $_POST['voivodship'];
         $districtId = $_POST['district'];
         $communityId = $_POST['community'];
@@ -109,50 +109,58 @@ class DefectController extends \yii\web\Controller
 
         // todo photo - change filename to random string
 
-        $target_dir = "upload/photos/";
-        $target_file = $target_dir . basename($_FILES["photo"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-// Check if image file is a actual image or fake image
-        if (isset($_POST["submit"])) {
-            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        if ($_FILES["photo"]["name"] != '') {
+
+            $target_dir = "upload/photos/";
+            $uploadOk = 1;
+            $imageFileType = pathinfo(basename($_FILES["photo"]["name"], PATHINFO_EXTENSION))['extension'];
+            $filename = $this->generateRandomString() . '.' . $imageFileType;
+            $target_file = $target_dir . $filename;
+            $msg = 'Przepraszamy, podczas wysyłania pliku wystąpił błąd.';
+
+            $check = getimagesize($_FILES["photo"]["tmp_name"]);
             if ($check !== false) {
-                echo "File is an image - " . $check["mime"] . ".";
+                $msg = "Plik jest obrazem - " . $check["mime"] . ".";
                 $uploadOk = 1;
             } else {
-                echo "File is not an image.";
+                $msg = "Plik nie jest obrazem.";
                 $uploadOk = 0;
             }
-        }
-// Check if file already exists
-        if (file_exists($target_file)) {
-            echo "Sorry, file already exists.";
-            $uploadOk = 0;
-        }
-// Check file size
-        if ($_FILES["photo"]["size"] > 1000000) {
-            echo "Sorry, your file is too large.";
-            $uploadOk = 0;
-        }
-// Allow certain file formats
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif"
-        ) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
-// Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-        } else {
-            if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
-                echo "The file " . basename($_FILES["photo"]["name"]) . " has been uploaded.";
+
+//        // Check if file already exists
+//        if (file_exists($target_file)) {
+//            $msg = "Sorry, file already exists.";
+//            $uploadOk = 0;
+//        }
+
+            // Check file size
+            if ($_FILES["photo"]["size"] > 5000000) {
+                $msg = "Plik jest zbyt duży.";
+                $uploadOk = 0;
+            }
+
+            // Allow certain file formats
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif"
+            ) {
+                $msg = "Plik powinien mieć rozszerzenie JPG, JPEG, PNG lub GIF.";
+                $uploadOk = 0;
+            }
+
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                $msg = "Przepraszamy, podczas wysyłania pliku wystąpił błąd.";
+
+                // if everything is ok, try to upload file
             } else {
-                echo "Sorry, there was an error uploading your file.";
+                if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
+                    $msg = "Plik " . basename($_FILES["photo"]["name"]) . " został poprawnie zapisany.";
+                    $defect->photo = $filename;
+                } else {
+                    $msg = "Przepraszamy, podczas wysyłania pliku wystąpił błąd.";
+                }
             }
         }
-
 
         if ($defect->save()) {
             $success = true;
@@ -161,10 +169,15 @@ class DefectController extends \yii\web\Controller
         }
 
         $response = array(
-            'success' => $success
+            'success' => $success,
+            'message' => $msg
         );
 
         return json_encode($response);
+    }
+
+    private function generateRandomString() {
+        return substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 3).substr(md5(time()),0,10);
     }
 }
 

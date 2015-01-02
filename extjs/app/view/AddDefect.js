@@ -158,7 +158,7 @@ Ext.define('pai.view.AddDefect', {
                                         if (form.isValid()) {
                                             form.submit(
                                                 {
-                                                    waitMsg: 'Wysyłanie zdjęcia, proszę czekać',
+                                                    waitMsg: 'Zapisywanie usterki, proszę czekać',
                                                     url: '../index.php/defect/create',
                                                     success: function (form, action) {
                                                         Ext.Msg.alert('Zapisano', 'Usterka została poprawnie zapisana');

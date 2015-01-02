@@ -7,6 +7,7 @@ Ext.define('pai.view.DefectDetails', {
     requires: [
         'pai.view.GoogleMapInfo'
     ],
+    padding: '20 20 20 10',
 
     initComponent: function () {
         var me = this;
@@ -14,37 +15,50 @@ Ext.define('pai.view.DefectDetails', {
         Ext.applyIf(me, {
             items: [
                 {
-                    xtype: 'displayfield',
-                    itemId: 'defectTitle'
-                },
-                {
-                    xtype: 'displayfield',
-                    itemId: 'defectDescription'
-                },
-                {
-                    xtype: 'displayfield',
-                    itemId: 'defectDate'
-                },
-                {
-                    xtype: 'displayfield',
-                    itemId: 'defectStatus'
-                },
-                {
-                    xtype: 'displayfield',
-                    itemId: 'defectCommunity'
-                },
-                {
-                    xtype: 'displayfield',
-                    itemId: 'defectDistrict'
-                },
-                {
-                    xtype: 'displayfield',
-                    itemId: 'defectVoivodship'
+                    xtype: 'container',
+                    maxHeight: 300,
+                    margin: '0 0 20 0',
+                    layout: 'hbox',
+                    items: [
+                        {
+                            xtype: 'container',
+                            padding: '0 20 0 0',
+                            flex: 1,
+                            items: [
+                                {
+                                    xtype: 'displayfield',
+                                    itemId: 'defectTitle'
+                                },
+                                {
+                                    xtype: 'displayfield',
+                                    itemId: 'defectDate'
+                                },
+                                {
+                                    xtype: 'displayfield',
+                                    itemId: 'defectStatus'
+                                },
+                                {
+                                    xtype: 'displayfield',
+                                    itemId: 'defectLocalization'
+                                },
+                                {
+                                    xtype: 'displayfield',
+                                    itemId: 'defectDescription'
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'image',
+                            flex: 1,
+                            src: '',
+                            itemId: 'defectImage'
+                        }
+                    ]
                 },
                 {
                     xtype: 'googleMapInfo',
                     itemId: 'googleMapInfo',
-                    width: '100%',
+                    //width: '100%',
                     height: 350
                 }
             ]
@@ -53,7 +67,9 @@ Ext.define('pai.view.DefectDetails', {
     },
 
     loadData: function(record) {
-        var position = {
+        var photoName,
+            image,
+            position = {
             coords: {
                 longitude: record.get('longitude'),
                 latitude: record.get('latitude')
@@ -62,11 +78,23 @@ Ext.define('pai.view.DefectDetails', {
 
         this.down('displayfield#defectTitle').setValue('<h1>' + record.get('title') +'</h1>');
         this.down('displayfield#defectDescription').setValue(record.get('description'));
-        this.down('displayfield#defectDate').setValue(record.getFormattedDate());
-        this.down('displayfield#defectStatus').setValue(record.getStatusName());
-        this.down('displayfield#defectCommunity').setValue(record.getLocalization());
+        this.down('displayfield#defectDate').setValue('Data zgłoszenia: ' + record.getFormattedDate());
+        this.down('displayfield#defectStatus').setValue('Status: ' + record.getStatusName());
+        this.down('displayfield#defectLocalization').setValue('Lokalizacja: ' + record.getLocalization());
+
+        photoName = record.get('photo');
+        image = this.down('image#defectImage');
+        if (photoName != null && photoName != '') {
+            image.show();
+            image.setSrc('../upload/photos/' + photoName);
+        } else {
+            image.hide();
+        }
+
 
         this.down('googleMapInfo#googleMapInfo').loadMap(position);
+
+        this.doLayout();
     }
 });
 
