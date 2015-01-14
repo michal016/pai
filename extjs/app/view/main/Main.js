@@ -11,7 +11,7 @@ Ext.define('pai.view.main.Main', {
         'pai.view.main.MainController',
         'pai.view.main.MainModel',
         'pai.view.AddDefect',
-        'pai.view.Defects'
+        'pai.view.DefectsList'
     ],
 
     xtype: 'app-main',
@@ -21,16 +21,14 @@ Ext.define('pai.view.main.Main', {
         type: 'main'
     },
 
-    layout: {
-        type: 'fit'
-    },
+    layout: 'fit',
 
     items: [
         {
             xtype: 'tabpanel',
             items: [
                 {
-                    xtype: 'defectsPanel'
+                    xtype: 'defectsList'
                 },
                 {
                     xtype: 'addDefectPanel'

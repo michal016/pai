@@ -12,6 +12,6 @@ Ext.define('pai.store.Defects', {
             type: 'json',
             rootProperty: 'data'
         }
-    },
-    autoLoad: true
+    }//,
+    //autoLoad: true
 });

@@ -12,5 +12,10 @@ Ext.define('pai.store.Communities', {
             rootProperty: 'data'
         }
     },
+    listeners: {
+        load: function () {
+            Ext.getStore('pai.store.Defects').load();
+        }
+    },
     autoLoad: true
 });
