@@ -186,7 +186,7 @@ Ext.define('pai.view.AddDefect', {
                 {
                     xtype: 'googleMap',
                     width: '100%',
-                    height: 340
+                    height: 400
                 }
             ]
         });

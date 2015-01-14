@@ -168,7 +168,7 @@ Ext.define('pai.view.DefectsList', {
                                 {
                                     text: 'Tytuł',
                                     dataIndex: 'title',
-                                    width: 200
+                                    width: 400
                                 },
                                 {
                                     text: 'Data zgłoszenia',
@@ -192,7 +192,7 @@ Ext.define('pai.view.DefectsList', {
                                     renderer: function (value) {
                                         return Ext.getStore('pai.store.Communities').getById(value).get('name');
                                     },
-                                    width: 100
+                                    width: 200
                                 },
                                 {
                                     text: 'Powiat',
@@ -200,7 +200,7 @@ Ext.define('pai.view.DefectsList', {
                                     renderer: function (value) {
                                         return Ext.getStore('pai.store.Districts').getById(value).get('name');
                                     },
-                                    width: 100
+                                    width: 200
                                 },
                                 {
                                     text: 'Województwo',
@@ -208,17 +208,19 @@ Ext.define('pai.view.DefectsList', {
                                     renderer: function (value) {
                                         return Ext.getStore('pai.store.Voivodships').getById(value).get('name');
                                     },
-                                    width: 100
+                                    width: 200
                                 }
                             ],
                             listeners: {
                                 'select': function (gridpanel, record, index) {
+                                    var controller = pai.app.getController('pai.controller.Main');
+                                    controller.showDetailsWindow();
                                     Ext.ComponentQuery.query('defectDetails')[0].loadData(record);
                                 }
                             }
                         }
                     ]
-                },
+                }
             ]
         });
         this.callParent(arguments);

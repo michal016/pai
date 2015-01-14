@@ -5,13 +5,12 @@ Ext.define('pai.view.Defects', {
     extend: 'Ext.panel.Panel',
     requires: [
         'pai.model.Defect',
-        'pai.view.DefectDetails',
         'pai.view.DefectsList',
         'pai.controller.Main'
     ],
     xtype: 'defectsPanel',
 
-    layout: 'hbox',
+    layout: 'fit',
 
     title: 'Przeglądaj usterki',
 
@@ -21,14 +20,9 @@ Ext.define('pai.view.Defects', {
         Ext.applyIf(me, {
             items: [
                 {
-                    width: '50%',
                     xtype: 'defectsList'
-                },
-                {
-                    width: '50%',
-                    xtype: 'defectDetails'
                 }
-         ]
+            ]
         });
         this.callParent(arguments);
     }

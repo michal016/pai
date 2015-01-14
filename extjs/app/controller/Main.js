@@ -4,6 +4,21 @@
 Ext.define('pai.controller.Main', {
     extend: 'Ext.app.Controller',
 
+    requires: [
+        'pai.view.DetailsWindow'
+    ],
+
     init: function() {
+        var viewSize = Ext.getBody().getViewSize();
+
+        this.detailsWindow = Ext.create('pai.view.DetailsWindow', {
+            hidden: true,
+            width: 800,
+            height: 500
+        });
+    },
+
+    showDetailsWindow: function() {
+        this.detailsWindow.show();
     }
 });
