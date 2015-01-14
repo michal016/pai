@@ -70,8 +70,117 @@ Ext.define('pai.view.DefectDetails', {
                     columnWidth: 1,
                     xtype: 'googleMapInfo',
                     itemId: 'googleMapInfo',
-                    height: 200
-                }
+                    height: 300,
+                    margin: '10 0 10 0'
+                },
+                {
+                    columnWidth: 1,
+                    xtype: 'container',
+                    layout: {
+                        type: 'vbox',
+                        align: 'center'
+                    },
+                    items: [
+                        {
+                            xtype: 'button',
+                            itemId: 'progressBtn',
+                            margin: '10 0 10 0',
+                            text: 'Oznacz trwającą naprawę',
+                            listeners: {
+                                click: function () {
+
+                                    Ext.Msg.show({
+                                        title: 'Czy jesteś pewien?',
+                                        message: 'Czy na pewno chcesz oznaczyć usterkę, jako w trakcie naprawy?',
+                                        buttons: Ext.Msg.YESNO,
+                                        icon: Ext.Msg.QUESTION,
+                                        fn: function(btn) {
+                                            if (btn === 'yes') {
+
+                                                var record = Ext.ComponentQuery.query('defectsList gridpanel')[0].getSelection();
+
+                                                if (record.length == 1) {
+                                                    record = record[0];
+
+                                                    Ext.Ajax.request({
+                                                        url: '../index.php/defect/make-resolved',
+                                                        params: {
+                                                            defectId: record.get('id'),
+                                                            status: pai.model.Defect.STATUS_IN_PROGRESS
+                                                        },
+                                                        success: function(response, opts) {
+                                                            var responseText = Ext.decode(response.responseText);
+                                                            Ext.Msg.show({
+                                                                    title: 'Informacja',
+                                                                    message: responseText.message,
+                                                                    buttons: Ext.Msg.OK
+                                                            });
+
+                                                            Ext.getStore('pai.store.Defects').load();
+                                                        },
+                                                        failure: function(response, opts) {
+                                                            console.log('server-side failure with status code ' + response.status);
+                                                        }
+                                                    });
+
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                        {
+                            xtype: 'button',
+                            itemId: 'resolvedBtn',
+                            text: 'Oznacz jako naprawioną',
+                            listeners: {
+                                click: function () {
+
+                                    Ext.Msg.show({
+                                        title:'Czy jesteś pewien?',
+                                        message: 'Czy na pewno chcesz oznaczyć usterkę, jako zrealizowaną?',
+                                        buttons: Ext.Msg.YESNO,
+                                        icon: Ext.Msg.QUESTION,
+                                        fn: function(btn) {
+                                            if (btn === 'yes') {
+
+                                                var record = Ext.ComponentQuery.query('defectsList gridpanel')[0].getSelection();
+
+                                                if (record.length == 1) {
+                                                    record = record[0];
+
+                                                    Ext.Ajax.request({
+                                                        url: '../index.php/defect/make-resolved',
+                                                        params: {
+                                                            defectId: record.get('id'),
+                                                            status: pai.model.Defect.STATUS_RESOLVED
+                                                        },
+                                                        success: function(response, opts) {
+                                                            var responseText = Ext.decode(response.responseText);
+                                                            Ext.Msg.show({
+                                                                title: 'Informacja',
+                                                                message: responseText.message,
+                                                                buttons: Ext.Msg.OK
+                                                            });
+
+                                                            Ext.getStore('pai.store.Defects').load();
+                                                        },
+                                                        failure: function(response, opts) {
+                                                            console.log('server-side failure with status code ' + response.status);
+                                                        }
+                                                    });
+
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    ]
+                },
+
             ]
         });
         this.callParent(arguments);
@@ -105,10 +214,22 @@ Ext.define('pai.view.DefectDetails', {
         //}
 
         image = this.down('panel#defectImage');
-        var img = '<img onload="Ext.ComponentQuery.query(\'defectDetails\')[0].updateLayout()" style="float: right; min-width: 100px; min-height: 100px; max-width: 400px; max-height: 300px;" src="../upload/photos/' + photoName + '" />';
+        var img = '<img alt="" onload="Ext.ComponentQuery.query(\'defectDetails\')[0].updateLayout()" style="float: right; min-width: 100px; min-height: 100px; max-width: 300px; max-height: 200px;" src="../upload/photos/' + photoName + '" />';
         image.update(img);
 
         this.down('googleMapInfo#googleMapInfo').loadMap(position);
+
+        if (record.get('status') == pai.model.Defect.STATUS_IN_PROGRESS) {
+            this.down('button#progressBtn').hide();
+            this.down('button#resolvedBtn').show();
+        } else if (record.get('status') == pai.model.Defect.STATUS_RESOLVED) {
+            this.down('button#progressBtn').hide();
+            this.down('button#resolvedBtn').hide();
+        } else {
+            this.down('button#progressBtn').show();
+            this.down('button#resolvedBtn').show();
+        }
+
     }
 });
 

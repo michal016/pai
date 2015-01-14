@@ -163,6 +163,7 @@ Ext.define('pai.view.AddDefect', {
                                                     success: function (form, action) {
                                                         Ext.Msg.alert('Zapisano', 'Usterka została poprawnie zapisana');
                                                         form.reset();
+                                                        Ext.getStore('pai.store.Defects').load();
                                                     },
                                                     failure: function (form, action) {
                                                         Ext.Msg.alert('Wystąpił problem', 'Nie udało się zapisać usterki');

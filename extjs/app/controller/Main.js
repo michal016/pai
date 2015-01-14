@@ -16,6 +16,15 @@ Ext.define('pai.controller.Main', {
             width: 800,
             height: 500
         });
+
+        Ext.getStore('pai.store.Defects').addFilter(
+            {
+                id: 'statusFilter',
+                property: 'status',
+                operator: '!=',
+                value: pai.model.Defect.STATUS_RESOLVED
+            }
+        )
     },
 
     showDetailsWindow: function() {

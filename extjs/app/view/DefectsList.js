@@ -131,6 +131,16 @@ Ext.define('pai.view.DefectsList', {
                                     }
                                 }
                             }
+                        },
+                        {
+                            xtype: 'button',
+                            margin: '20 0 0 0',
+                            text: 'Skasuj filtr',
+                            listeners: {
+                                click: function (button) {
+                                    button.prev('combobox[name=voivodship]').reset();
+                                }
+                            }
                         }
                     ]
                 },
@@ -151,6 +161,27 @@ Ext.define('pai.view.DefectsList', {
                                 )
                             } else {
                                 Ext.getStore('pai.store.Defects').removeFilter('nameFilter');
+                            }
+                        }
+                    }
+                },
+                {
+                    xtype: 'checkbox',
+                    fieldLabel: 'Pokaż rozwiązane usterki',
+                    labelWidth: 150,
+                    listeners: {
+                        'change': function (textfield, newValue) {
+                            if (newValue) {
+                                Ext.getStore('pai.store.Defects').removeFilter('statusFilter');
+                            } else {
+                                Ext.getStore('pai.store.Defects').addFilter(
+                                    {
+                                        id: 'statusFilter',
+                                        property: 'status',
+                                        operator: '!=',
+                                        value: pai.model.Defect.STATUS_RESOLVED
+                                    }
+                                );
                             }
                         }
                     }
@@ -184,7 +215,7 @@ Ext.define('pai.view.DefectsList', {
                                     renderer: function (value, metadata, record) {
                                         return record.getStatusName();
                                     },
-                                    width: 100
+                                    width: 150
                                 },
                                 {
                                     text: 'Gmina',

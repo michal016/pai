@@ -26,7 +26,7 @@ class DefectController extends \yii\web\Controller
                 'only' => ['index', 'read'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'read', 'create', 'update', 'remove'],
+                        'actions' => ['index', 'read', 'create', 'update', 'remove', 'makeResolved'],
                         'allow' => true,
                         'roles' => ['?'],
                     ]
@@ -84,6 +84,41 @@ class DefectController extends \yii\web\Controller
     }
 
 
+
+    public function actionMakeResolved() {
+
+        $defectId = $_POST['defectId'];
+        $defectStatus = intval($_POST['status']);
+
+        /** @var Defect $defect */
+        $defect = Defect::find()->where(['id' => $defectId])->one();
+
+        if ($defect instanceof Defect) {
+            if ($defectStatus == Defect::STATUS_IN_PROGRESS || $defectStatus == Defect::STATUS_RESOLVED) {
+                $defect->status = $defectStatus;
+
+                if ($defect->save()) {
+                    $response = array(
+                        'success' => true,
+                        'message' => 'Poprawnie zmieniono status usterki.'
+                    );
+
+                    return json_encode($response);
+                }
+            }
+        }
+
+        $response = array(
+            'success' => false,
+            'message' => 'Wystąpił błąd.'
+        );
+
+        return json_encode($response);
+
+
+    }
+
+
     public function actionCreate()
     {
         $msg = "Usterka została poprawnie zapisana";
@@ -107,7 +142,6 @@ class DefectController extends \yii\web\Controller
         $defect->longitude = $longitude;
 
 
-        // todo photo - change filename to random string
 
         if ($_FILES["photo"]["name"] != '') {
 
@@ -127,12 +161,6 @@ class DefectController extends \yii\web\Controller
                 $uploadOk = 0;
             }
 
-//        // Check if file already exists
-//        if (file_exists($target_file)) {
-//            $msg = "Sorry, file already exists.";
-//            $uploadOk = 0;
-//        }
-
             // Check file size
             if ($_FILES["photo"]["size"] > 5000000) {
                 $msg = "Plik jest zbyt duży.";
@@ -151,7 +179,7 @@ class DefectController extends \yii\web\Controller
             if ($uploadOk == 0) {
                 $msg = "Przepraszamy, podczas wysyłania pliku wystąpił błąd.";
 
-                // if everything is ok, try to upload file
+            // if everything is ok, try to upload file
             } else {
                 if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
                     $msg = "Plik " . basename($_FILES["photo"]["name"]) . " został poprawnie zapisany.";

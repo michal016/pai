@@ -17,7 +17,6 @@ Ext.define('pai.view.DetailsWindow', {
         Ext.applyIf(me, {
             items: [
                 {
-                    title: 'Szczegóły usterki',
                     xtype: 'defectDetails'
                 }
             ]
