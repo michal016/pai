@@ -12,6 +12,7 @@ Ext.define('pai.view.DefectsList', {
     ],
     xtype: 'defectsList',
     padding: '20 10 20 20',
+    overflowY: true,
 
     title: 'Przeglądaj usterki',
 
