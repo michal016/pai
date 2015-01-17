@@ -5,15 +5,25 @@ Ext.define('pai.controller.Main', {
     extend: 'Ext.app.Controller',
 
     requires: [
-        'pai.view.DetailsWindow'
+        'pai.view.DetailsWindow',
+        'pai.config.Settings'
     ],
 
     init: function() {
-        var viewSize = Ext.getBody().getViewSize();
+        var viewSize = Ext.getBody().getViewSize(),
+            communityStore = Ext.getStore('pai.store.Communities'),
+            districtStore = Ext.getStore('pai.store.Districts'),
+            voivodshipStore = Ext.getStore('pai.store.Voivodships');
 
-        Ext.getStore('pai.store.Communities').load();
-        Ext.getStore('pai.store.Districts').load();
-        Ext.getStore('pai.store.Voivodships').load();
+        communityStore.load();
+        districtStore.load();
+        voivodshipStore.load();
+
+        voivodshipStore.on('load', function () {
+            Ext.getStore('pai.store.Defects').load();
+        });
+
+        voivodshipStore.on('load', this.checkIfLogged);
 
         this.detailsWindow = Ext.create('pai.view.DetailsWindow', {
             hidden: true,
@@ -28,8 +38,16 @@ Ext.define('pai.controller.Main', {
                 operator: '!=',
                 value: pai.model.Defect.STATUS_RESOLVED
             }
-        )
+        );
 
+
+    },
+
+    showDetailsWindow: function() {
+        this.detailsWindow.show();
+    },
+
+    checkIfLogged: function () {
         Ext.Ajax.request({
             url: '../index.php/main/logged',
             success: function(response, opts) {
@@ -71,11 +89,7 @@ Ext.define('pai.controller.Main', {
                     buttons: Ext.Msg.OK
                 });
             }
-        })
-    },
-
-    showDetailsWindow: function() {
-        this.detailsWindow.show();
+        });
     }
 });
 
