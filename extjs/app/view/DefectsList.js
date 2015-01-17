@@ -11,8 +11,8 @@ Ext.define('pai.view.DefectsList', {
         'pai.controller.Main'
     ],
     xtype: 'defectsList',
-    padding: '20 10 20 20',
-    overflowY: true,
+    padding: 20,
+    //overflowY: true,
 
     title: 'Przeglądaj usterki',
 
@@ -148,51 +148,59 @@ Ext.define('pai.view.DefectsList', {
                     ]
                 },
                 {
-                    xtype: 'textfield',
-                    fieldLabel: 'Filtruj',
-                    labelAlign: 'top',
-                    listeners: {
-                        'change': function (textfield, newValue) {
-                            if (newValue != null && newValue.length > 0) {
-                                Ext.getStore('pai.store.Defects').addFilter(
-                                    {
-                                        id: 'nameFilter',
-                                        property: 'title',
-                                        anyMatch: true,
-                                        value: newValue
+                    xtype: 'container',
+                    layout: 'hbox',
+                    items: [
+                        {
+                            xtype: 'textfield',
+                            fieldLabel: 'Filtruj',
+                            labelAlign: 'top',
+                            listeners: {
+                                'change': function (textfield, newValue) {
+                                    if (newValue != null && newValue.length > 0) {
+                                        Ext.getStore('pai.store.Defects').addFilter(
+                                            {
+                                                id: 'nameFilter',
+                                                property: 'title',
+                                                anyMatch: true,
+                                                value: newValue
+                                            }
+                                        )
+                                    } else {
+                                        Ext.getStore('pai.store.Defects').removeFilter('nameFilter');
                                     }
-                                )
-                            } else {
-                                Ext.getStore('pai.store.Defects').removeFilter('nameFilter');
+                                }
+                            }
+                        },
+                        {
+                            xtype: 'checkbox',
+                            fieldLabel: 'Pokaż rozwiązane usterki',
+                            labelWidth: 170,
+                            margin: '25 0 0 10',
+                            listeners: {
+                                'change': function (textfield, newValue) {
+                                    if (newValue) {
+                                        Ext.getStore('pai.store.Defects').removeFilter('statusFilter');
+                                    } else {
+                                        Ext.getStore('pai.store.Defects').addFilter(
+                                            {
+                                                id: 'statusFilter',
+                                                property: 'status',
+                                                operator: '!=',
+                                                value: pai.model.Defect.STATUS_RESOLVED
+                                            }
+                                        );
+                                    }
+                                }
                             }
                         }
-                    }
-                },
-                {
-                    xtype: 'checkbox',
-                    fieldLabel: 'Pokaż rozwiązane usterki',
-                    labelWidth: 150,
-                    listeners: {
-                        'change': function (textfield, newValue) {
-                            if (newValue) {
-                                Ext.getStore('pai.store.Defects').removeFilter('statusFilter');
-                            } else {
-                                Ext.getStore('pai.store.Defects').addFilter(
-                                    {
-                                        id: 'statusFilter',
-                                        property: 'status',
-                                        operator: '!=',
-                                        value: pai.model.Defect.STATUS_RESOLVED
-                                    }
-                                );
-                            }
-                        }
-                    }
+                    ]
                 },
                 {
                     xtype: 'container',
-                    height: Ext.getBody().getViewSize().height - 180,
+                    height: Ext.getBody().getViewSize().height - 180 - 50,
                     layout: 'fit',
+                    overflowY: true,
                     items: [
                         {
                             xtype: 'gridpanel',

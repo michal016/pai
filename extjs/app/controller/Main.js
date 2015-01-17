@@ -43,18 +43,20 @@ Ext.define('pai.controller.Main', {
                     pai.config.Settings.voivodshipId = responseText.data.voivodshipId;
                     pai.config.Settings.logged = responseText.data.logged;
 
-                    var mainPanel = Ext.ComponentQuery.query('app-main')[0],
-                        tabpanel = mainPanel.down('tabpanel'),
-                        username = mainPanel.down("displayfield#username");
+                    if (pai.config.Settings.logged) {
 
-                    tabpanel.remove(tabpanel.items.items[3]);
-                    tabpanel.remove(tabpanel.items.items[2]);
-                    tabpanel.setActiveItem(0);
+                        var mainPanel = Ext.ComponentQuery.query('app-main')[0],
+                            tabpanel = mainPanel.down('tabpanel'),
+                            username = mainPanel.down("displayfield#username");
 
-                    mainPanel.down("button#logoutBtn").show();
-                    username.show();
-                    username.setValue(pai.config.Settings.username);
+                        tabpanel.remove(tabpanel.items.items[3]);
+                        tabpanel.remove(tabpanel.items.items[2]);
+                        tabpanel.setActiveItem(0);
 
+                        mainPanel.down("button#logoutBtn").show();
+                        username.show();
+                        username.setValue(pai.config.Settings.getLoggedInfo());
+                    }
                 }
 
 
@@ -70,9 +72,6 @@ Ext.define('pai.controller.Main', {
                 });
             }
         })
-
-
-
     },
 
     showDetailsWindow: function() {

@@ -13,7 +13,8 @@ Ext.define('pai.view.main.Main', {
         'pai.view.AddDefect',
         'pai.view.DefectsList',
         'pai.view.Register',
-        'pai.view.Login'
+        'pai.view.Login',
+        'pai.config.Settings'
     ],
 
     xtype: 'app-main',
@@ -93,6 +94,11 @@ Ext.define('pai.view.main.Main', {
                                                     me.down('tabpanel').add(Ext.create('pai.view.Register'));
                                                     me.down('tabpanel').add(Ext.create('pai.view.Login'));
 
+                                                    pai.config.Settings.username = null;
+                                                    pai.config.Settings.communityId = null;
+                                                    pai.config.Settings.districtId = null;
+                                                    pai.config.Settings.voivodshipId = null;
+                                                    pai.config.Settings.logged = null;
                                                 }
 
                                             },

@@ -5,7 +5,8 @@ Ext.define('pai.view.DefectDetails', {
     extend: 'Ext.Container',
     xtype: 'defectDetails',
     requires: [
-        'pai.view.GoogleMapInfo'
+        'pai.view.GoogleMapInfo',
+        'pai.config.Settings'
     ],
     padding: '20 20 20 10',
     layout : 'column',
@@ -22,7 +23,7 @@ Ext.define('pai.view.DefectDetails', {
                     itemId: 'defectTitle'
                 },
                 {
-                    columnWidth: 0.45,
+                    columnWidth: 0.55,
                     xtype: 'container',
                     style: 'float: left;',
                     padding: '0 0 0 0',
@@ -40,22 +41,14 @@ Ext.define('pai.view.DefectDetails', {
                             itemId: 'defectLocalization'
                         },
                         {
-                            xtype: 'displayfield',
+                            xtype: 'label',
                             itemId: 'defectDescription',
                             shrinkWrap: true
                         }
                     ]
                 },
-                //{
-                //    xtype: 'image',
-                //    itemId: 'defectImage',
-                //    style: {
-                //        'max-width': '400px',
-                //        'max-height': '300px'
-                //    }
-                //}
                 {
-                    columnWidth: 0.45,
+                    columnWidth: 0.4,
                     style: 'float: right;',
                     xtype: 'container',
                     items: [
@@ -197,39 +190,41 @@ Ext.define('pai.view.DefectDetails', {
             };
 
         this.down('displayfield#defectTitle').setValue('<h1>' + record.get('title') + '</h1>');
-        this.down('displayfield#defectDescription').setValue(record.get('description'));
+        this.down('label#defectDescription').setText(record.get('description'));
         this.down('displayfield#defectDate').setValue('Data zgłoszenia: ' + record.getFormattedDate());
         this.down('displayfield#defectStatus').setValue('Status: ' + record.getStatusName());
         this.down('displayfield#defectLocalization').setValue('Lokalizacja: ' + record.getLocalization());
 
 
         photoName = record.get('photo');
-
-        //image = this.down('image#defectImage');
-        //if (photoName != null && photoName != '') {
-        //    image.show();
-        //    image.setSrc('../upload/photos/' + photoName);
-        //} else {
-        //    image.hide();
-        //}
-
         image = this.down('panel#defectImage');
-        var img = '<img alt="" onload="Ext.ComponentQuery.query(\'defectDetails\')[0].updateLayout()" style="float: right; min-width: 100px; min-height: 100px; max-width: 300px; max-height: 200px;" src="../upload/photos/' + photoName + '" />';
-        image.update(img);
+
+        if (photoName != null && photoName != '') {
+            image.show();
+            var img = '<img alt="" onload="Ext.ComponentQuery.query(\'defectDetails\')[0].updateLayout()" style="float: right; min-width: 100px; min-height: 100px; max-width: 300px; max-height: 200px;" src="../upload/photos/' + photoName + '" />';
+            image.update(img);
+        } else {
+            image.hide();
+        }
 
         this.down('googleMapInfo#googleMapInfo').loadMap(position);
 
-        if (record.get('status') == pai.model.Defect.STATUS_IN_PROGRESS) {
-            this.down('button#progressBtn').hide();
-            this.down('button#resolvedBtn').show();
-        } else if (record.get('status') == pai.model.Defect.STATUS_RESOLVED) {
+        if (pai.config.Settings.logged && record.get('community_id') == pai.config.Settings.communityId) {
+
+            if (record.get('status') == pai.model.Defect.STATUS_IN_PROGRESS) {
+                this.down('button#progressBtn').hide();
+                this.down('button#resolvedBtn').show();
+            } else if (record.get('status') == pai.model.Defect.STATUS_RESOLVED) {
+                this.down('button#progressBtn').hide();
+                this.down('button#resolvedBtn').hide();
+            } else {
+                this.down('button#progressBtn').show();
+                this.down('button#resolvedBtn').show();
+            }
+        } else {
             this.down('button#progressBtn').hide();
             this.down('button#resolvedBtn').hide();
-        } else {
-            this.down('button#progressBtn').show();
-            this.down('button#resolvedBtn').show();
         }
-
     }
 });
 

@@ -18,6 +18,7 @@ Ext.define('pai.view.Register', {
             items: [
                 {
                     xtype: 'form',
+                    margin: '100',
                     layout: {
                         type: 'vbox',
                         align: 'center'
@@ -159,7 +160,7 @@ Ext.define('pai.view.Register', {
 
                                                                 mainPanel.down("button#logoutBtn").show();
                                                                 username.show();
-                                                                username.setValue(pai.config.Settings.username);
+                                                                username.setValue(pai.config.Settings.getLoggedInfo());
 
                                                                 Ext.Msg.alert('Sukces', 'Rejestracja przebiegła pomyślnie');
                                                                 form.reset();

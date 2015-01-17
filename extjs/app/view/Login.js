@@ -20,6 +20,7 @@ Ext.define('pai.view.Login', {
             items: [
                 {
                     xtype: 'form',
+                    margin: '150',
                     layout: {
                         type: 'vbox',
                         align: 'center'
@@ -86,7 +87,7 @@ Ext.define('pai.view.Login', {
 
                                                             mainPanel.down("button#logoutBtn").show();
                                                             username.show();
-                                                            username.setValue(pai.config.Settings.username);
+                                                            username.setValue(pai.config.Settings.getLoggedInfo());
 
                                                         } else {
                                                             Ext.Msg.alert('Wystąpił problem', responseText.message);
