@@ -11,6 +11,6 @@ Ext.define('pai.store.Districts', {
             type: 'json',
             rootProperty: 'data'
         }
-    },
-    autoLoad: true
+    }//,
+    //autoLoad: true
 });

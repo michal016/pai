@@ -11,6 +11,6 @@ Ext.define('pai.store.Voivodships', {
             type: 'json',
             rootProperty: 'data'
         }
-    },
-    autoLoad: true
+    }//,
+    //autoLoad: true
 });

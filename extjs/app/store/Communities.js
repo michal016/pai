@@ -16,6 +16,6 @@ Ext.define('pai.store.Communities', {
         load: function () {
             Ext.getStore('pai.store.Defects').load();
         }
-    },
-    autoLoad: true
+    }//,
+    //autoLoad: true
 });

@@ -17,6 +17,13 @@ use Yii;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $community_id
+ * @property integer $district_id
+ * @property integer $voivodship_id
+ *
+ * @property Voivodship $voivodship
+ * @property Community $community
+ * @property District $district
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -35,7 +42,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['role', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['role', 'status', 'created_at', 'updated_at', 'community_id', 'district_id', 'voivodship_id'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32]
         ];
@@ -57,6 +64,33 @@ class User extends \yii\db\ActiveRecord
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'community_id' => 'Community ID',
+            'district_id' => 'District ID',
+            'voivodship_id' => 'Voivodship ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVoivodship()
+    {
+        return $this->hasOne(Voivodship::className(), ['id' => 'voivodship_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCommunity()
+    {
+        return $this->hasOne(Community::className(), ['id' => 'community_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDistrict()
+    {
+        return $this->hasOne(District::className(), ['id' => 'district_id']);
     }
 }

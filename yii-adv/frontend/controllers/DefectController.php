@@ -23,12 +23,12 @@ class DefectController extends \yii\web\Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'read'],
+                'only' => ['index'],
                 'rules' => [
                     [
                         'actions' => ['index', 'read', 'create', 'update', 'remove', 'makeResolved'],
                         'allow' => true,
-                        'roles' => ['?'],
+                        'roles' => ['*'],
                     ]
                 ]
             ]
@@ -114,8 +114,6 @@ class DefectController extends \yii\web\Controller
         );
 
         return json_encode($response);
-
-
     }
 
 

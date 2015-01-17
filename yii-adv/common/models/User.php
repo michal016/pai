@@ -2,6 +2,9 @@
 namespace common\models;
 
 use Yii;
+use app\models\Community;
+use app\models\District;
+use app\models\Voivodship;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -21,6 +24,13 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property integer $community_id
+ * @property integer $district_id
+ * @property integer $voivodship_id
+ *
+ * @property Voivodship $voivodship
+ * @property Community $community
+ * @property District $district
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -189,5 +199,29 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVoivodship()
+    {
+        return $this->hasOne(Voivodship::className(), ['id' => 'voivodship_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCommunity()
+    {
+        return $this->hasOne(Community::className(), ['id' => 'community_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDistrict()
+    {
+        return $this->hasOne(District::className(), ['id' => 'district_id']);
     }
 }
