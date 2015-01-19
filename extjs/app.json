@@ -40,6 +40,7 @@
      *      ]
      */
     "requires": [
+        "ext-locale"
     ],
 
     /**
@@ -304,5 +305,7 @@
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "a3773db6-769c-439f-86d9-6f8d534ea9aa"
+    "id": "a3773db6-769c-439f-86d9-6f8d534ea9aa",
+
+    "locale": "pl"
 }
